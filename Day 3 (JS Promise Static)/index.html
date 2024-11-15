@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Static Methods of JavaScript Promises, Try-Catch and finally block</h1>
+    <script>
+        //Promise All:takes an array of promises and resolves when all of them resolve or rejects if any promise rejects.
+         const promise1 = Promise.resolve(10);
+         const promise2 = Promise.resolve(20);
+         const promise3 = Promise.resolve(30);
+         Promise.all([promise1, promise2, promise3])
+         .then(results => console.log(results)) // Output: [10, 20, 30]
+         .catch(error => console.error('Error:', error));
+
+        //promise race:returns a promise that resolves or rejects as soon as one of the promises in the array resolves or rejects.
+         const fastPromise = new Promise((resolve) => setTimeout(() => resolve('Fast'), 100));
+         const slowPromise = new Promise((resolve) => setTimeout(() => resolve('Slow'), 1000));
+         Promise.race([fastPromise, slowPromise])
+         .then(result => console.log(result)) // Output: 'Fast'
+         .catch(error => console.error('Error:', error));
+        
+        
+        //promise allseteled:waits for all promises to complete, regardless of their outcome (resolved or rejected).
+        const promiseA = Promise.resolve('A');
+        const promiseB = Promise.reject('B');
+         const promiseC = Promise.resolve('C');
+         Promise.allSettled([promiseA, promiseB, promiseC])
+        .then(results => console.log(results))
+       .catch(error=>console.log("the error is:"))
+
+    
+        //Promise.any: resolves as soon as any of the promises in the array resolve and rejects if all promises are rejected.
+        const p1 = Promise.reject('Error 1');
+        const p2 = Promise.reject('Error 2');
+        const p3 = Promise.resolve('First Success');
+        Promise.any([p1, p2, p3])
+        .then(result => console.log(result)) // Output: 'First Success'
+        .catch(error => console.error('All Promises rejected:', error));
+       
+
+        //Promise.resolve creates a resolved promise with a given value.
+        const resolvedPromise = Promise.resolve('Resolved Value');
+        resolvedPromise.then(value => console.log(value)); // Output: 'Resolved Value'
+        
+
+        //Promise.reject: creates a promise that is rejected with a given reason.
+        const rejectedPromise = Promise.reject('Rejected Value');
+        rejectedPromise.catch(reason => console.error(reason)); // Output: 'Rejected Value'
+        
+
+//Using try-catch, Custom Errors, and finally
+//try block attempts to execute fetchData.
+//catch block handles any errors, logs a custom error message, and throws a new custom error.
+//finally block runs regardless of success or error, providing a place for cleanup logic.
+function fetchData(shouldFail) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldFail) {
+        reject(new Error('Data fetch failed!'));
+      } else {
+        resolve('Data fetched successfully');
+      }
+    }, 1000);
+  });
+}
+async function fetchDataWithHandling() {
+  try {
+    const result = await fetchData(false); // Change to true to trigger an error
+    console.log(result);
+  } catch (error) {
+    console.error('Custom Error Message:', error.message);
+    throw new Error('Custom Error Thrown After Catch');
+  } finally {
+    console.log('Execution complete, cleaning up...');
+  }
+}
+
+fetchDataWithHandling().catch(err => console.error('Caught Custom Error:', err.message));
+</script>
+
+       

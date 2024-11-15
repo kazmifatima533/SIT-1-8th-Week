@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>outerHTML Example</title>
+</head>
+<body>
+    <div id="replaceMe">This is the original content.</div>
+    <button onclick="replaceContent()">Replace Content</button>
+    <button onclick="insertContent()">Insert Content</button>
+
+    <script>
+        // Replace the content
+        function replaceContent() {
+            let replaceDiv = document.getElementById('replaceMe');
+            replaceDiv.outerHTML = '<p>This element has been replaced with a paragraph!</p>';
+        }
+
+        // Insert new content around and within the div
+        function insertContent() {
+            let div = document.getElementById('replaceMe');
+
+            // Insert before the div element
+            div.insertAdjacentHTML('beforebegin', '<p>Inserted before the div.</p>');
+
+            // Insert at the beginning of the div element
+            div.insertAdjacentHTML('afterbegin', '<p>Inserted at the beginning of the div.</p>');
+
+            // Insert at the end of the div element
+            div.insertAdjacentHTML('beforeend', '<p>Inserted at the end of the div.</p>');
+
+            // Insert after the div element
+            div.insertAdjacentHTML('afterend', '<p>Inserted after the div.</p>');
+        }
+    </script>
+</body>
+</html>
